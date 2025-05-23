@@ -3,11 +3,11 @@ import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import DropBox from './components/DropBox';
-import DraggableItem from './components/DraggableItem';
+import DropBox from '../components/DropBox'; 
+import DraggableItem from '../components/DraggableItem'; 
 import { Luckiest_Guy } from "next/font/google";
 import Image from 'next/image';
-import Header from './components/Header';
+import Header from '../components/Header'; 
 
 const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
@@ -16,7 +16,7 @@ const luckiestGuy = Luckiest_Guy({
 });
 
 
-export default function Home() {
+export default function First_Game() {
   const [showEndGamePopup, setShowEndGamePopup] = useState(false);
   const [droppedValue, setDroppedValue] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -101,7 +101,7 @@ export default function Home() {
 
  return (
   <DndProvider backend={HTML5Backend}>
-    <Header home={true} />
+    <Header home={false} />
     <div className='flex items-center justify-center flex-col'>
       <div className="container flex flex-col gap-3 bg-white rounded-lg shadow-md mx-auto mt-5 p-5 w-250 h-160"> 
         <div className="bg-white rounded-lg flex-col shadow-lg w-full h-1/3 flex gap-3 items-center justify-center">
@@ -124,7 +124,7 @@ export default function Home() {
               <DraggableItem key={value} value={value} />
             ))}
           </div>
-                  <div className="flex gap-3 flex-col items-center justify-center h-full w-full mt-4">
+            <div className="flex gap-3 flex-col items-center justify-center h-full w-full mt-4">
             <p className="text-lg font-semibold">Arraste o número correto para a caixa</p>
             <button
               onClick={handleVerify}
