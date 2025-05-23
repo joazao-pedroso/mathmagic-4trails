@@ -35,11 +35,11 @@ export default function DropBox({ onDropValue, currentValue }: DropBoxProps) {
   return (
     <div
       ref={ref}
-      className={`w-25 h-15 border-3 transition-all  border-teal-600 border-dashed rounded-xl flex items-center justify-center ${
-        isOver ? 'bg-teal-500 ' : ''
+      className={`w-25 h-15 border-3 transition-all  border-[#227C9D] border-dashed rounded-xl flex items-center justify-center ${
+        isOver ? 'bg-[#227C9D] ' : ''
       }`}
     >
-      <p className={`${luckiestGuy.variable} text-5xl text-teal-600` } style={{ fontFamily: 'Luckiest Guy' }}>{currentValue !== null ? currentValue : '?' }</p>
+      <p className={`${luckiestGuy.variable} text-5xl text-[#227C9D]` } style={{ fontFamily: 'Luckiest Guy' }}>{currentValue !== null ? currentValue : '?' }</p>
     </div>
   );
 }

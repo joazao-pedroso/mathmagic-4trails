@@ -35,7 +35,7 @@ export default function DraggableItem({ value }: DraggableItemProps) {
           userSelect: 'none',
           fontFamily: 'Luckiest Guy',
         }}
-        className={`${luckiestGuy.variable} w-25 shadow-md hover:bg-white border-2 border-teal-600 transition-all hover:text-teal-600 h-15 rounded-xl text-white text-3xl text-center flex items-center justify-center bg-teal-600/100 cursor-grab`}
+        className={`${luckiestGuy.variable} w-25 shadow-md hover:bg-white border-2 border-[#227C9D] transition-all hover:text-[#227C9D] h-15 rounded-xl text-white text-3xl text-center flex items-center justify-center bg-[#227C9D]/100 cursor-grab`}
       >
         {value}
       </div>
