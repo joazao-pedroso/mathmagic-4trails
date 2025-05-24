@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from 'framer-motion';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -17,6 +18,7 @@ const luckiestGuy = Luckiest_Guy({
 
 
 export default function First_Game() {
+  const router = useRouter();
   const [showEndGamePopup, setShowEndGamePopup] = useState(false);
   const [droppedValue, setDroppedValue] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -140,8 +142,6 @@ export default function First_Game() {
       </div>
     </div>
 
-   {/* Overlay de Parabéns */}
-{/* Overlay de Parabéns */}
 <AnimatePresence>
   {isCorrect === true && (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex flex-row gap-3 items-center justify-center z-50">
@@ -248,17 +248,27 @@ export default function First_Game() {
           <p className="text-lg text-gray-700">
             Você acertou <strong>{acertos}</strong> e errou <strong>{erros}</strong>.
           </p>
+          <div className="flex gap-3 items-center justify-center">
+            <button
+              onClick={() => {
+                setAcertos(0);
+                setErros(0);
+                setShowEndGamePopup(false);
+                handleGetValues()
+              }}
+              className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
+            >
+              Jogar novamente
+            </button>
           <button
             onClick={() => {
-              setAcertos(0);
-              setErros(0);
-              setShowEndGamePopup(false);
-              handleGetValues()
+              router.push('/');
             }}
             className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
           >
-            Jogar novamente
+            Voltar para o início
           </button>
+            </div>
         </div>
       </motion.div>
     </div>
