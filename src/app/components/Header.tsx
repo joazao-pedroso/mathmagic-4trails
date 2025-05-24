@@ -55,7 +55,7 @@ export default function Header({ home }: { home: boolean }) {
                className="bg-white p-8 rounded-2xl shadow-2xl w-[90%] max-w-md text-center"
              >
                <div className="flex flex-col items-center gap-4">
-                 <div className={` ${luckiestGuy.variable}  text-[#FFCB77] text-3xl font-extrabold`} style={{ fontFamily: 'Luckiest Guy' }}> 
+                 <div className={` ${luckiestGuy.variable} text-shadow-lg/25 text-[#FFCB77] text-3xl font-extrabold`} style={{ fontFamily: 'Luckiest Guy' }}> 
                    Deseja voltar para a página inicial?
                  </div>
                  <p className="text-gray-700 text-base">

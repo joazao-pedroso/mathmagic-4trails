@@ -18,7 +18,7 @@ const luckiestGuy = Luckiest_Guy({
 });
 
 
-export default function First_Game() {
+export default function FirstGame() {
   const router = useRouter();
   const [showEndGamePopup, setShowEndGamePopup] = useState(false);
   const [droppedValue, setDroppedValue] = useState<number | null>(null);
@@ -39,7 +39,6 @@ export default function First_Game() {
 
     const wrongOptions = new Set<number>();
     while (wrongOptions.size < 3) {
-      // Gera opções erradas razoáveis, evitando valores muito altos ou iguais
       let opt = Math.floor(Math.random() * 40) + 1;
       if (opt !== correct) {
         wrongOptions.add(opt);
@@ -64,7 +63,6 @@ export default function First_Game() {
   const handleVerify = () => {
     if (droppedValue === null) {
         setShowWarning(true);
-
       return;
     }
 
@@ -215,8 +213,8 @@ export default function First_Game() {
     className="bg-white p-8 rounded-2xl shadow-2xl w-[90%] max-w-md text-center"
   >
     <div className="flex flex-col items-center gap-4">
-      <div className={` ${luckiestGuy.variable} text-[#FE6D73] text-3xl font-extrabold`} style={{ fontFamily: 'Luckiest Guy' }}> 
-        Atenção
+      <div className={` ${luckiestGuy.variable} text-[#FE6D73] text-shadow-lg/25 text-3xl font-extrabold`} style={{ fontFamily: 'Luckiest Guy' }}> 
+        Atenção!
       </div>
       <p className="text-gray-700 text-base">
         Você precisa arrastar um número antes de verificar.
