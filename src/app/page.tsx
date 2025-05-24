@@ -3,6 +3,7 @@ import { useRouter } from 'next/navigation';
 import { CheckCircle } from 'lucide-react';
 import { Luckiest_Guy } from 'next/font/google';
 import Header from './components/Header';
+import Footer from './components/Footer';
 
 const luckiestGuy = Luckiest_Guy({
   variable: '--font-luckiest-guy',
@@ -52,6 +53,7 @@ export default function Trilha() {
           </ul>
         </div>
       </main>
+      <Footer />
     </>
   );
 }
