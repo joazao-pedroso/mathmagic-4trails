@@ -9,6 +9,7 @@ import DraggableItem from '../components/DraggableItem';
 import { Luckiest_Guy } from "next/font/google";
 import Image from 'next/image';
 import Header from '../components/Header'; 
+import Footer from '../components/Footer';
 
 const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
@@ -274,7 +275,7 @@ export default function First_Game() {
     </div>
   )}
 </AnimatePresence>
-
+<Footer />
   </DndProvider>
 );
 
