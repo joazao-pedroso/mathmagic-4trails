@@ -1,23 +1,24 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import { CheckCircle } from 'lucide-react';
-import { Luckiest_Guy } from 'next/font/google';
-import Header from './components/Header';
-import Footer from './components/Footer';
+"use client";
+import { useRouter } from "next/navigation";
+import { CheckCircle } from "lucide-react";
+import { Luckiest_Guy } from "next/font/google";
+import Header from "../components/Header";
+import Footer from "../components/Footer";
 
 const luckiestGuy = Luckiest_Guy({
-  variable: '--font-luckiest-guy',
-  subsets: ['latin'],
-  weight: '400'
+  variable: "--font-luckiest-guy",
+  subsets: ["latin"],
+  weight: "400",
 });
 
 export default function Trilha() {
   const router = useRouter();
 
   const steps = [
-    { title: 'Jogo 1', path: '/first_game' },
-    { title: 'Jogo 2', path: '/second_game' },
-    { title: 'Jogo 3', path: '/third_game' }
+    { title: "Jogo 1", path: "/first_game" },
+    { title: "Jogo 2", path: "/second_game" },
+    { title: "Jogo 3", path: "/third_game" },
+    { title: "Jogo 4", path: "/four_game" },
   ];
 
   return (
@@ -27,7 +28,7 @@ export default function Trilha() {
         <div className="bg-white rounded-3xl shadow-xl w-full max-w-md p-8 flex flex-col items-center gap-6">
           <h1
             className={`${luckiestGuy.variable} text-[#227C9D] text-4xl font-bold`}
-            style={{ fontFamily: 'Luckiest Guy' }}
+            style={{ fontFamily: "Luckiest Guy" }}
           >
             Trilha de Jogos
           </h1>
@@ -44,7 +45,7 @@ export default function Trilha() {
                 </div>
                 <span
                   className={`${luckiestGuy.variable} text-xl tracking-wide`}
-                  style={{ fontFamily: 'Luckiest Guy' }}
+                  style={{ fontFamily: "Luckiest Guy" }}
                 >
                   {step.title}
                 </span>
