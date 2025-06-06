@@ -31,7 +31,7 @@ export default function Header({ home }: { home: boolean }) {
 
   return (
     <>
-      <header className="flex justify-between items-center p-4 h-25 bg-[#227C9D] text-white">
+      <header className="flex w-full justify-between items-center p-4 h-25 bg-[#227C9D] text-white">
         <Image
           src="/logo.svg" 
           className={home ? "cursor-default" : "cursor-pointer"}
