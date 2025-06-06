@@ -14,6 +14,7 @@ const luckiestGuy = Luckiest_Guy({
 });
 
 export default function ThirdGame() {
+  
   const router = useRouter();
   const [showWarning, setShowWarning] = useState(false);
   const [userN, setuserN] = useState<number | null>(null);
@@ -153,6 +154,12 @@ export default function ThirdGame() {
               </p>
               <input
                 type="number"
+
+                onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
+                  if (e.key === "Enter") {
+                    handleCheckValues(e as never); // TypeScript pode pedir ajuste
+                  }
+                }}
                 value={userN === null ? "" : userN}
                 onChange={(e) => setuserN(Number(e.target.value))}
                 className={`${luckiestGuy.className} border-3 border-[#227C9D] text-3xl text-center text-[#227C9D] rounded-xl w-150 h-15`}

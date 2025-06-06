@@ -14,7 +14,6 @@ export default function Header({ home }: { home: boolean }) {
   const [showModal, setShowModal] = useState(false);
 
   function handleGoToHome() {
-    // Se já está na home, não mostra modal
     if (home) {
       return;
     }
@@ -34,7 +33,7 @@ export default function Header({ home }: { home: boolean }) {
     <>
       <header className="flex justify-between items-center p-4 h-25 bg-[#227C9D] text-white">
         <Image
-          src="/logo.svg" // Garante que o caminho está correto
+          src="/logo.svg" 
           className={home ? "cursor-default" : "cursor-pointer"}
           alt="Logo"
           width={250}
@@ -43,7 +42,6 @@ export default function Header({ home }: { home: boolean }) {
         />
       </header>
 
-      {/* Modal estilo popup do jogo */}
       <AnimatePresence>
         {showModal && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
