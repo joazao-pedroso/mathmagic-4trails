@@ -16,6 +16,9 @@ const luckiestGuy = Luckiest_Guy({
 export default function ThirdGame() {
   
   const router = useRouter();
+  const [passou, setPassou] = useState<boolean | null>(null);
+  const [totalAcertos, setTotalAcertos] = useState<string[]>([]);
+  const [totalErros, setTotalErros] = useState<string[]>([]);
   const [showWarning, setShowWarning] = useState(false);
   const [userN, setuserN] = useState<number | null>(null);
   const [num1, setNum1] = useState<number | null>(null);
@@ -40,10 +43,12 @@ export default function ThirdGame() {
   const checkGameOver = (newPosJogador: number, newPosZumbi: number) => {
     if (newPosJogador >= 800) {
       setTimeout(() => {
+        setPassou(true)
         setShowVictoryPopup(true);
       }, 750);
     } else if (newPosZumbi >= newPosJogador) {
       setTimeout(() => {
+        setPassou(false)
         setShowEndGamePopup(true);
       }, 750);
     }
@@ -61,11 +66,13 @@ export default function ThirdGame() {
     if (userN === correct) {
       newJogador += 50;
       newZumbi += 10;
+      setTotalAcertos((prev) => [...prev, `${num1}x${num2}`]);
       setIsVictory(true);
       setTimeout(() => {
         setIsVictory(null);
       }, 500);
     } else {
+      setTotalErros((prev) => [...prev, `${num1}x${num2}`]);
       setIsVictory(false);
       setTimeout(() => {
         setIsVictory(null);
@@ -82,6 +89,9 @@ export default function ThirdGame() {
   };
 
   const resetGame = () => {
+    setPassou(null);
+    setTotalAcertos([]);
+    setTotalErros([]);
     setPosJogador(150);
     setPosZumbi(0);
     setGameOver(false);
@@ -95,6 +105,34 @@ export default function ThirdGame() {
   useEffect(() => {
     handleGetValues();
   }, []);
+
+  useEffect(() => {
+    if (passou !== null) {
+      setShowEndGamePopup(true);
+  
+      const sendData = async () => {
+        const response = await fetch("http://127.0.0.1:5000/api/desempenho-jogo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            trilha: 1,
+            jogo: 3,
+            passou: `${passou}`,
+            acertos: totalAcertos,
+            erros: totalErros,
+          }),
+        });
+  
+        if (!response.ok) {
+          console.error("Failed to save game data");
+        } else {
+          console.log("Dados enviados com sucesso!");
+        }
+      };
+  
+      sendData();
+    }
+  }, [passou, totalAcertos, totalErros]);
 
   return (
     <>

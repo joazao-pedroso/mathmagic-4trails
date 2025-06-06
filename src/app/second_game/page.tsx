@@ -15,6 +15,9 @@ const luckiestGuy = Luckiest_Guy({
 });
 
 export default function SecondGame() {
+  const [passou, setPassou] = useState<boolean | null>(null);
+  const [totalAcertos, setTotalAcertos] = useState<string[]>([]);
+  const [totalErros, setTotalErros] = useState<string[]>([]);
   const [n1, setN1] = useState<number | null>(null);
   const [n2, setN2] = useState<number | null>(null);
   const [correctAnswer, setCorrectAnswer] = useState<number | null>(null);
@@ -66,17 +69,19 @@ export default function SecondGame() {
     if (correct) {
       setRounds((prev) => {
         const newRound = prev + 1;
+        setTotalAcertos((prev) => [...prev, `${n1}x${n2}`])
         if (newRound === 10) {
           setShowVictoryPopup(true);
         }
         return newRound;
       });
-      // handleGetValues(); // Chamado no useEffect após a animação
     } else {
       setLives((prev) => prev - 1);
+      setTotalErros((prev) => [...prev, `${n1}x${n2}`]);
       setRounds((prev) => {
         const newRound = prev + 1;
         if (newRound === 10) {
+          setPassou(true)
           setShowVictoryPopup(true);
         }
         return newRound;
@@ -103,11 +108,40 @@ export default function SecondGame() {
   useEffect(() => {
     if (lives <= 0) {
       const timer = setTimeout(() => {
+        setPassou(false)
         setShowEndGamePopup(true);
       }, 1500);
       return () => clearTimeout(timer);
     }
   }, [lives]);
+  useEffect(() => {
+    if (passou !== null) {
+      setShowEndGamePopup(true);
+  
+      const sendData = async () => {
+        const response = await fetch("http://127.0.0.1:5000/api/desempenho-jogo", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            trilha: 1,
+            jogo: 2,
+            passou: `${passou}`,
+            acertos: totalAcertos,
+            erros: totalErros,
+          }),
+        });
+  
+        if (!response.ok) {
+          console.error("Failed to save game data");
+        } else {
+          console.log("Dados enviados com sucesso!");
+        }
+      };
+  
+      sendData();
+    }
+  }, [passou, totalAcertos, totalErros]);
+  
 
   return (
     <>
@@ -267,6 +301,7 @@ export default function SecondGame() {
                       setRounds(0);
                       setShowEndGamePopup(false);
                       handleGetValues();
+                      setPassou(null)
                     }}
                     className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
                   >
@@ -311,6 +346,8 @@ export default function SecondGame() {
                       setRounds(0);
                       setShowVictoryPopup(false);
                       handleGetValues();
+                      setTotalAcertos([])
+                      setTotalErros([])
                     }}
                     className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
                   >

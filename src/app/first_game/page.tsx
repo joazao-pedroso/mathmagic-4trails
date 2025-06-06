@@ -17,8 +17,13 @@ const luckiestGuy = Luckiest_Guy({
   weight: "400",
 });
 
+
+
 export default function FirstGame() {
   const router = useRouter();
+  const [passou, setPassou] = useState<boolean | null>(null);
+  const [totalErros, setTotalErros] = useState<string[]>([]);
+  const [totalAcertos, setTotalAcertos] = useState<string[]>([]);
   const [showEndGamePopup, setShowEndGamePopup] = useState(false);
   const [droppedValue, setDroppedValue] = useState<number | null>(null);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
@@ -30,6 +35,8 @@ export default function FirstGame() {
   const [erros, setErros] = useState<number>(0);
   const [acertos, setAcertos] = useState<number>(0);
   const total = acertos + erros;
+
+
 
   function handleGetValues() {
     const num1 = Math.floor(Math.random() * 4) + 1;
@@ -70,8 +77,11 @@ export default function FirstGame() {
       setIsCorrect(correct);
       if (correct) {
         setAcertos((prev) => prev + 1);
+        setTotalAcertos((prev) => [...prev, `${n1}x${n2}`]);
+
       } else {
         setErros((prev) => prev + 1);
+        setTotalErros((prev) => [...prev, `${n1}x${n2}`]);
       }
     }
   };
@@ -89,14 +99,40 @@ export default function FirstGame() {
     handleGetValues();
   }, []);
 
-  useEffect(() => {
-    if (total >= 10) {
-      const timer = setTimeout(() => {
-        setShowEndGamePopup(true);
-      }, 1750);
-      return () => clearTimeout(timer);
-    }
-  }, [total]);
+useEffect(() => {
+  if (total >= 5) {
+    setTimeout(() => {
+      setPassou(acertos >= 3);
+    }, 1000); 
+  }
+}, [acertos, total]);
+useEffect(() => {
+  if (passou !== null) {
+    setShowEndGamePopup(true);
+
+    const sendData = async () => {
+      const response = await fetch("http://127.0.0.1:5000/api/desempenho-jogo", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          trilha: 1,
+          jogo: 1,
+          passou: `${passou}`,
+          acertos: totalAcertos,
+          erros: totalErros,
+        }),
+      });
+
+      if (!response.ok) {
+        console.error("Failed to save game data");
+      } else {
+        console.log("Dados enviados com sucesso!");
+      }
+    };
+
+    sendData();
+  }
+}, [passou, totalAcertos, totalErros]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -109,7 +145,7 @@ export default function FirstGame() {
                 style={{ fontFamily: "Luckiest Guy" }}
                 className={`${luckiestGuy.variable} text-3xl`}
               >
-                <span className="text-[#227C9D]">{acertos + erros}</span> / 10
+                <span className="text-[#227C9D]">{acertos + erros}</span> / 5
               </h3>
             </div>
             <div className="flex gap-3 h-4/4 w-full justify-center">
@@ -264,10 +300,13 @@ export default function FirstGame() {
                 <div className="flex gap-3 items-center justify-center">
                   <button
                     onClick={() => {
+                      setTotalAcertos([]);
+                      setTotalErros([]);
                       setAcertos(0);
                       setErros(0);
                       setShowEndGamePopup(false);
                       handleGetValues();
+                      setPassou(null)
                     }}
                     className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
                   >
