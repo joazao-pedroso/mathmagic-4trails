@@ -1,5 +1,9 @@
 @import "tailwindcss";
-
+.tdgbg{
+  background-image: url('/tdbg.png');
+  background-size: cover;
+  background-position: center;
+}
 :root {
   --background: #ffffff;
   --foreground: #171717;

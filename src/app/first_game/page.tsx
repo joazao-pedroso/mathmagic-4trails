@@ -90,7 +90,7 @@ export default function FirstGame() {
     if (isCorrect !== null) {
       const timer = setTimeout(() => {
         handleGetValues();
-      }, 1000);
+      }, 500);
       return () => clearTimeout(timer);
     }
   }, [isCorrect]);
@@ -109,12 +109,12 @@ useEffect(() => {
 useEffect(() => {
   if (passou !== null) {
     setShowEndGamePopup(true);
-
     const sendData = async () => {
-      const response = await fetch("http://127.0.0.1:5000/api/desempenho-jogo", {
+      const response = await fetch("http://127.0.0.1:5000/api/desempenho_jogo", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
+          aluno_id: 1,
           trilha: 1,
           jogo: 1,
           passou: `${passou}`,

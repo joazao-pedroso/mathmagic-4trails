@@ -71,7 +71,10 @@ export default function SecondGame() {
         const newRound = prev + 1;
         setTotalAcertos((prev) => [...prev, `${n1}x${n2}`])
         if (newRound === 10) {
-          setShowVictoryPopup(true);
+          setTimeout(() => {
+            setShowVictoryPopup(true);
+          }
+          , 1000);
         }
         return newRound;
       });
@@ -80,15 +83,16 @@ export default function SecondGame() {
       setTotalErros((prev) => [...prev, `${n1}x${n2}`]);
       setRounds((prev) => {
         const newRound = prev + 1;
-        if (newRound === 10) {
+        if (newRound === 10 && lives > 0) {
           setPassou(true)
-          setShowVictoryPopup(true);
+          setTimeout(() => {
+            setShowVictoryPopup(true);
+          }
+          , 1000);
         }
         return newRound;
       });
-      // setTimeout(() => { // Chamado no useEffect após a animação
-      //   if (rounds < 9) handleGetValues();
-      // }, 500);
+
     }
   };
 
@@ -97,10 +101,9 @@ export default function SecondGame() {
       const timer = setTimeout(() => {
         setIsCorrect(null); // Reseta o estado para a animação
         if (rounds < 10 && lives > 0) {
-          // Garante que a próxima rodada só aconteça se o jogo não tiver terminado
           handleGetValues();
         }
-      }, 1000); // Duração da animação
+      }, 500); // Duração da animação
       return () => clearTimeout(timer);
     }
   }, [isCorrect, lives, rounds]);
@@ -110,7 +113,7 @@ export default function SecondGame() {
       const timer = setTimeout(() => {
         setPassou(false)
         setShowEndGamePopup(true);
-      }, 1500);
+      }, 1000);
       return () => clearTimeout(timer);
     }
   }, [lives]);
@@ -276,7 +279,7 @@ export default function SecondGame() {
       {/* MODAL DE FIM DE JOGO */}
       <AnimatePresence>
         {showEndGamePopup && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+          <div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex items-center justify-center z-50">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -299,7 +302,8 @@ export default function SecondGame() {
                     onClick={() => {
                       setLives(3);
                       setRounds(0);
-                      setShowEndGamePopup(false);
+                      setShowEndGamePopup(false)
+                      setShowVictoryPopup(false);
                       handleGetValues();
                       setPassou(null)
                     }}
@@ -321,7 +325,7 @@ export default function SecondGame() {
       </AnimatePresence>
       <AnimatePresence>
         {showVictoryPopup && (
-          <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+          <div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex items-center justify-center z-50">
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={{ opacity: 1, scale: 1 }}
@@ -344,6 +348,7 @@ export default function SecondGame() {
                     onClick={() => {
                       setLives(3);
                       setRounds(0);
+                      setShowEndGamePopup(false)
                       setShowVictoryPopup(false);
                       handleGetValues();
                       setTotalAcertos([])

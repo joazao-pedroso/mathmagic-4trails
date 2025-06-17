@@ -14,7 +14,6 @@ const luckiestGuy = Luckiest_Guy({
 });
 
 export default function ThirdGame() {
-  
   const router = useRouter();
   const [passou, setPassou] = useState<boolean | null>(null);
   const [totalAcertos, setTotalAcertos] = useState<string[]>([]);
@@ -43,14 +42,14 @@ export default function ThirdGame() {
   const checkGameOver = (newPosJogador: number, newPosZumbi: number) => {
     if (newPosJogador >= 800) {
       setTimeout(() => {
-        setPassou(true)
+        setPassou(true);
         setShowVictoryPopup(true);
-      }, 750);
+      }, 1000);
     } else if (newPosZumbi >= newPosJogador) {
       setTimeout(() => {
-        setPassou(false)
+        setPassou(false);
         setShowEndGamePopup(true);
-      }, 750);
+      }, 1000);
     }
   };
 
@@ -109,27 +108,40 @@ export default function ThirdGame() {
   useEffect(() => {
     if (passou !== null) {
       setShowEndGamePopup(true);
-  
+
       const sendData = async () => {
-        const response = await fetch("http://127.0.0.1:5000/api/desempenho-jogo", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
+        console.log(
+          JSON.stringify({
             trilha: 1,
             jogo: 3,
             passou: `${passou}`,
             acertos: totalAcertos,
             erros: totalErros,
-          }),
-        });
-  
+          })
+        );
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/desempenho-jogo",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              aluno_id: 1,
+              trilha: 1,
+              jogo: 3,
+              passou: `${passou}`,
+              acertos: totalAcertos,
+              erros: totalErros,
+            }),
+          }
+        );
+
         if (!response.ok) {
           console.error("Failed to save game data");
         } else {
           console.log("Dados enviados com sucesso!");
         }
       };
-  
+
       sendData();
     }
   }, [passou, totalAcertos, totalErros]);
@@ -192,7 +204,6 @@ export default function ThirdGame() {
               </p>
               <input
                 type="number"
-
                 onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                   if (e.key === "Enter") {
                     handleCheckValues(e as never); // TypeScript pode pedir ajuste
@@ -272,8 +283,7 @@ export default function ThirdGame() {
             </motion.div>
           </div>
         )}
-      </AnimatePresence>
-      <AnimatePresence>
+
         {showEndGamePopup && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
             <motion.div
@@ -291,7 +301,7 @@ export default function ThirdGame() {
                   Fim de Jogo!
                 </h2>
                 <p className="text-lg text-gray-700 text-center">
-                  Você perdeu todas as vidas!
+                  Você perdeu foi pego pela a caveira!
                 </p>
                 <div className="flex gap-3 items-center justify-center flex-wrap">
                   <button
