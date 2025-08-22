@@ -60,7 +60,7 @@ export default function Register() {
     
   return (
     <div className="flex flex-col min-h-screen w-full items-center justify-between bg-gray-100">
-      <Header home={false} />
+      <Header home={false} auth={true} />
 
       <main className="flex flex-col items-center justify-center flex-grow w-full px-4 py-8">
         <h1

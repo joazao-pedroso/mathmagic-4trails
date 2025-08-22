@@ -36,9 +36,8 @@ export default function SignIn() {
 
       if (response.ok) {
         const data = await response.json();
-        // Exemplo: salvar token no localStorage e redirecionar
-        localStorage.setItem('token', data.access_token);
-        router.push('/'); // redirecione para onde quiser
+        sessionStorage.setItem('token', data.access_token);
+        router.push('/'); 
       } else {
         setLoginError(true);
       }
@@ -50,7 +49,7 @@ export default function SignIn() {
 
   return (
     <div className="flex flex-col min-h-screen w-full items-center justify-between bg-gray-100">
-      <Header home={false} />
+      <Header home={false} auth={true} />
       <main className="flex flex-col items-center justify-center flex-grow w-full px-4 py-8">
         <h1
           className={`${luckiestGuy.variable} text-[#227C9D] text-5xl font-bold mb-8`}
@@ -96,7 +95,7 @@ export default function SignIn() {
             />
           </div>
 
-          <button
+          <button 
             type="button"
             onClick={handleLogin}
             className="w-full bg-[#227C9D] text-white text-xl py-3 rounded-lg hover:bg-[#1a5d74] transition-colors"
@@ -107,7 +106,6 @@ export default function SignIn() {
       </main>
       <Footer />
 
-      {/* Modal - Campos vazios */}
       <AnimatePresence>
         {emptyFields && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
@@ -133,7 +131,6 @@ export default function SignIn() {
         )}
       </AnimatePresence>
 
-      {/* Modal - Erro login */}
       <AnimatePresence>
         {loginError && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">

@@ -126,6 +126,7 @@ export default function SecondGame() {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
+            aluno_id: 1,
             trilha: 1,
             jogo: 2,
             passou: `${passou}`,

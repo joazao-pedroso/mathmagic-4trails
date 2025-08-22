@@ -21,10 +21,11 @@ export default function Trilha() {
     { title: "Jogo 4", path: "/four_game" },
   ];
 
+
   return (
     <>
       <Header home={true} />
-      <main className="min-h-screen bg-gray-150 flex items-center justify-center ">
+      <main className="min-h-screen bg-gray-150 flex items-center justify-center">
         <div className="bg-white rounded-3xl shadow-xl w-full max-w-md p-8 flex flex-col items-center gap-6">
           <h1
             className={`${luckiestGuy.variable} text-[#227C9D] text-4xl font-bold`}

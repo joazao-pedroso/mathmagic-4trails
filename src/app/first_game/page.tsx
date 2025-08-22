@@ -10,6 +10,7 @@ import { Luckiest_Guy } from "next/font/google";
 import Image from "next/image";
 import Header from "../../components/Header";
 import Footer from "../../components/Footer";
+import useCheckToken from "@/hooks/useCheckToken";
 
 const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
@@ -20,6 +21,8 @@ const luckiestGuy = Luckiest_Guy({
 
 
 export default function FirstGame() {
+
+
   const router = useRouter();
   const [passou, setPassou] = useState<boolean | null>(null);
   const [totalErros, setTotalErros] = useState<string[]>([]);
@@ -35,8 +38,7 @@ export default function FirstGame() {
   const [erros, setErros] = useState<number>(0);
   const [acertos, setAcertos] = useState<number>(0);
   const total = acertos + erros;
-
-
+  useCheckToken()
 
   function handleGetValues() {
     const num1 = Math.floor(Math.random() * 4) + 1;
