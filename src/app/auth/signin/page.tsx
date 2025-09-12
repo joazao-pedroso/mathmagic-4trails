@@ -52,10 +52,11 @@ export default function SignIn() {
       <Header home={false} auth={true} />
       <main className="flex flex-col items-center justify-center flex-grow w-full px-4 py-8">
         <h1
-          className={`${luckiestGuy.variable} text-[#227C9D] text-5xl font-bold mb-8`}
+          className={` text-[#227C9D] text-5xl  mb-8`}
           style={{ fontFamily: "Luckiest Guy" }}
+
         >
-          Entrar
+          ENTRAR
         </h1>
 
         <form className="w-full max-w-xl bg-white rounded-xl shadow-xl p-8 space-y-6">
@@ -63,7 +64,6 @@ export default function SignIn() {
             <label
               htmlFor="email"
               className="text-2xl text-[#227C9D]"
-              style={{ fontFamily: "Luckiest Guy" }}
             >
               Email:
             </label>
@@ -81,7 +81,6 @@ export default function SignIn() {
             <label
               htmlFor="senha"
               className="text-2xl text-[#227C9D]"
-              style={{ fontFamily: "Luckiest Guy" }}
             >
               Senha:
             </label>

@@ -5,7 +5,6 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Luckiest_Guy } from "next/font/google";
-import useCheckToken from "@/hooks/useCheckToken";
 const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
   subsets: ["latin"],
@@ -19,7 +18,6 @@ export default function Header({ home, auth = false }: HeaderProps) {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [showModalLeave, setShowModalLeave] = useState(false);
-  useCheckToken();
 
 
   function handleGoToHome() {

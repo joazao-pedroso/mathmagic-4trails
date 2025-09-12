@@ -4,13 +4,12 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import DropBox from "../../components/DropBox";
-import DraggableItem from "../../components/DraggableItem";
+import DropBox from "../../../../components/DropBox";
+import DraggableItem from "../../../../components/DraggableItem";
 import { Luckiest_Guy } from "next/font/google";
 import Image from "next/image";
-import Header from "../../components/Header";
-import Footer from "../../components/Footer";
-import useCheckToken from "@/hooks/useCheckToken";
+import Header from "../../../../components/Header";
+import Footer from "../../../../components/Footer";
 
 const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
@@ -18,11 +17,7 @@ const luckiestGuy = Luckiest_Guy({
   weight: "400",
 });
 
-
-
 export default function FirstGame() {
-
-
   const router = useRouter();
   const [passou, setPassou] = useState<boolean | null>(null);
   const [totalErros, setTotalErros] = useState<string[]>([]);
@@ -38,28 +33,35 @@ export default function FirstGame() {
   const [erros, setErros] = useState<number>(0);
   const [acertos, setAcertos] = useState<number>(0);
   const total = acertos + erros;
-  useCheckToken()
+
 
   function handleGetValues() {
-    const num1 = Math.floor(Math.random() * 4) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    const correct = num1 * num2;
-
+    let num1 = Math.floor(Math.random() * 50) + 1; // 1 a 10
+    let num2 = Math.floor(Math.random() * 50) + 1; // 1 a 10
+  
+    // Garante que num1 >= num2
+    if (num2 > num1) {
+      [num1, num2] = [num2, num1];
+    }
+  
+    const correct = num1 - num2;
+  
     const wrongOptions = new Set<number>();
     while (wrongOptions.size < 3) {
-      const opt = Math.floor(Math.random() * 40) + 1;
+      const opt = Math.floor(Math.random() * 50); // respostas erradas mais próximas
       if (opt !== correct) {
         wrongOptions.add(opt);
       }
     }
-
+  
     const allOptions = [correct, ...Array.from(wrongOptions)];
-
+  
+    // Embaralha as opções
     for (let i = allOptions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]];
     }
-
+  
     setN1(num1);
     setN2(num2);
     setCorrectAnswer(correct);
@@ -67,6 +69,8 @@ export default function FirstGame() {
     setDroppedValue(null);
     setIsCorrect(null);
   }
+  
+
 
   const handleVerify = () => {
     if (droppedValue === null) {
@@ -79,11 +83,10 @@ export default function FirstGame() {
       setIsCorrect(correct);
       if (correct) {
         setAcertos((prev) => prev + 1);
-        setTotalAcertos((prev) => [...prev, `${n1}x${n2}`]);
-
+        setTotalAcertos((prev) => [...prev, `${n1}/${n2}`]);
       } else {
         setErros((prev) => prev + 1);
-        setTotalErros((prev) => [...prev, `${n1}x${n2}`]);
+        setTotalErros((prev) => [...prev, `${n1}/${n2}`]);
       }
     }
   };
@@ -101,40 +104,44 @@ export default function FirstGame() {
     handleGetValues();
   }, []);
 
-useEffect(() => {
-  if (total >= 5) {
-    setTimeout(() => {
-      setPassou(acertos >= 3);
-    }, 1000); 
-  }
-}, [acertos, total]);
-useEffect(() => {
-  if (passou !== null) {
-    setShowEndGamePopup(true);
-    const sendData = async () => {
-      const response = await fetch("http://127.0.0.1:5000/api/desempenho_jogo", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          aluno_id: 1,
-          trilha: 1,
-          jogo: 1,
-          passou: `${passou}`,
-          acertos: totalAcertos,
-          erros: totalErros,
-        }),
-      });
+  useEffect(() => {
+    if (total >= 5) {
+      setTimeout(() => {
+        setPassou(acertos >= 3);
+      }, 1000);
+    }
+  }, [acertos, total]);
 
-      if (!response.ok) {
-        console.error("Failed to save game data");
-      } else {
-        console.log("Dados enviados com sucesso!");
-      }
-    };
+  useEffect(() => {
+    if (passou !== null) {
+      setShowEndGamePopup(true);
+      const sendData = async () => {
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/desempenho_jogo",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              aluno_id: 1,
+              trilha: 1,
+              jogo: 1,
+              passou: `${passou}`,
+              acertos: totalAcertos,
+              erros: totalErros,
+            }),
+          }
+        );
 
-    sendData();
-  }
-}, [passou, totalAcertos, totalErros]);
+        if (!response.ok) {
+          console.error("Failed to save game data");
+        } else {
+          console.log("Dados enviados com sucesso!");
+        }
+      };
+
+      sendData();
+    }
+  }, [passou, totalAcertos, totalErros]);
 
   return (
     <DndProvider backend={HTML5Backend}>
@@ -155,7 +162,7 @@ useEffect(() => {
                 className={`${luckiestGuy.variable} text-center text-5xl tracking-wider`}
                 style={{ fontFamily: "Luckiest Guy" }}
               >
-                {n1} <span className="text-[#227C9D]">x</span> {n2} =
+                {n1} <span className="text-[#227C9D]">-</span> {n2} =
               </h1>
               <DropBox
                 onDropValue={setDroppedValue}
@@ -182,8 +189,6 @@ useEffect(() => {
               </button>
             </div>
           </div>
-
-          <div className="flex justify-center mt-4 flex-col items-center"></div>
         </div>
       </div>
 
@@ -278,6 +283,7 @@ useEffect(() => {
           </div>
         )}
       </AnimatePresence>
+
       <AnimatePresence>
         {showEndGamePopup && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
@@ -308,7 +314,7 @@ useEffect(() => {
                       setErros(0);
                       setShowEndGamePopup(false);
                       handleGetValues();
-                      setPassou(null)
+                      setPassou(null);
                     }}
                     className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
                   >

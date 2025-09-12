@@ -1,12 +1,12 @@
 "use client";
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Header from "../../components/Header";
+import Header from "../../../../components/Header";
 import { Luckiest_Guy } from "next/font/google";
 import { Heart } from "lucide-react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
-import Footer from "../../components/Footer";
+import Footer from "../../../../components/Footer";
 
 const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
@@ -73,7 +73,7 @@ export default function FourGame() {
         if (newEnemyLives <= 0) {
           setPassou(true);
           setTimeout(() => {
-          setShowVictoryPopup(true);
+            setShowVictoryPopup(true);
           }, 1000); // Delay to show victory popup
         }
         setTotalAcertos((prevAcertos) => [...prevAcertos, `${n1}x${n2}`]);
@@ -113,17 +113,20 @@ export default function FourGame() {
   useEffect(() => {
     if (passou !== null) {
       const sendData = async () => {
-        const response = await fetch("http://127.0.0.1:5000/api/desempenho-jogo", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            trilha: 1,
-            jogo: 4,
-            passou: `${passou}`, // Convert boolean to string for the API
-            acertos: totalAcertos,
-            erros: totalErros,
-          }),
-        });
+        const response = await fetch(
+          "http://127.0.0.1:5000/api/desempenho-jogo",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              trilha: 1,
+              jogo: 4,
+              passou: `${passou}`, // Convert boolean to string for the API
+              acertos: totalAcertos,
+              erros: totalErros,
+            }),
+          }
+        );
 
         if (!response.ok) {
           console.error("Failed to save game data");
@@ -147,9 +150,10 @@ export default function FourGame() {
                   {Array.from({ length: 3 }).map((_, index) => (
                     <Heart
                       key={index}
+                      fill={index < lives ? "red" : "none"}
                       className={`w-6 h-6 ${
                         index < lives
-                          ? "text-red-500 opacity-100"
+                          ? "text-red-600 opacity-100"
                           : "text-red-300 opacity-50"
                       }`}
                     />
@@ -180,6 +184,7 @@ export default function FourGame() {
                   {Array.from({ length: 7 }).map((_, index) => (
                     <Heart
                       key={index}
+                      fill={index < enemyLives ? "orange" : "none"}
                       className={`w-6 h-6 ${
                         index < enemyLives
                           ? "text-orange-500 opacity-100"
@@ -208,14 +213,16 @@ export default function FourGame() {
                     key={value}
                     className={`${luckiestGuy.className} text-4xl cursor-pointer hover:scale-115 transition-all bg-[#227C9D] hover:bg-[#227c9dda] text-white w-40 h-20 rounded-lg`}
                     // Disable buttons if a popup is active or game ended
-                    disabled={showEndGamePopup || showVictoryPopup || isCorrect !== null}
+                    disabled={
+                      showEndGamePopup || showVictoryPopup || isCorrect !== null
+                    }
                   >
                     {value}
                   </button>
                 ))}
               </div>
-              <p className="text-lg font-semibold">Escolha a opção correta</p>
-            </div>
+              <p className="text-lg font-semibold">Qual é o resultado da multiplicação?</p>
+              </div>
           </div>
         </div>
       </div>
@@ -282,51 +289,52 @@ export default function FourGame() {
       </AnimatePresence>
 
       <AnimatePresence>
-        {showEndGamePopup && !showVictoryPopup && ( // Only show if not a victory
-          <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.9 }}
-              transition={{ duration: 0.3 }}
-              className="bg-white p-8 rounded-2xl shadow-2xl w-[90%] max-w-md text-center"
-            >
-              <div className="flex flex-col items-center gap-4">
-                <h2
-                  className={`${luckiestGuy.variable} text-[#227C9D] text-3xl`}
-                  style={{ fontFamily: "Luckiest Guy" }}
-                >
-                  Fim de Jogo!
-                </h2>
-                <p className="text-lg text-gray-700 text-center">
-                  Você perdeu todas as vidas!
-                </p>
-                <div className="flex gap-3 items-center justify-center flex-wrap">
-                  <button
-                    onClick={() => {
-                      setLives(3);
-                      setEnemyLives(7);
-                      setShowEndGamePopup(false);
-                      handleGetValues();
-                      setPassou(null); // Reset passou state
-                      setTotalAcertos([]);
-                      setTotalErros([]);
-                    }}
-                    className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
+        {showEndGamePopup &&
+          !showVictoryPopup && ( // Only show if not a victory
+            <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                exit={{ opacity: 0, scale: 0.9 }}
+                transition={{ duration: 0.3 }}
+                className="bg-white p-8 rounded-2xl shadow-2xl w-[90%] max-w-md text-center"
+              >
+                <div className="flex flex-col items-center gap-4">
+                  <h2
+                    className={`${luckiestGuy.variable} text-[#227C9D] text-3xl`}
+                    style={{ fontFamily: "Luckiest Guy" }}
                   >
-                    Jogar novamente
-                  </button>
-                  <button
-                    onClick={() => router.push("/")}
-                    className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
-                  >
-                    Voltar para o início
-                  </button>
+                    Fim de Jogo!
+                  </h2>
+                  <p className="text-lg text-gray-700 text-center">
+                    Você perdeu todas as vidas!
+                  </p>
+                  <div className="flex gap-3 items-center justify-center flex-wrap">
+                    <button
+                      onClick={() => {
+                        setLives(3);
+                        setEnemyLives(7);
+                        setShowEndGamePopup(false);
+                        handleGetValues();
+                        setPassou(null); // Reset passou state
+                        setTotalAcertos([]);
+                        setTotalErros([]);
+                      }}
+                      className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
+                    >
+                      Jogar novamente
+                    </button>
+                    <button
+                      onClick={() => router.push("/")}
+                      className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
+                    >
+                      Voltar para o início
+                    </button>
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-          </div>
-        )}
+              </motion.div>
+            </div>
+          )}
       </AnimatePresence>
 
       <AnimatePresence>

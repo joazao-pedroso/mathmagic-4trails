@@ -1,7 +1,7 @@
 "use client";
-import Header from "../../components/Header";
+import Header from "../../../../components/Header";
 import { Luckiest_Guy } from "next/font/google";
-import Footer from "../../components/Footer";
+import Footer from "../../../../components/Footer";
 import { MouseEventHandler, useEffect, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
@@ -29,13 +29,14 @@ export default function ThirdGame() {
   const [isVictory, setIsVictory] = useState<boolean | null>(null);
   const [showEndGamePopup, setShowEndGamePopup] = useState(false);
   const [showVictoryPopup, setShowVictoryPopup] = useState(false);
-
   function handleGetValues() {
-    const n1 = Math.floor(Math.random() * 8) + 1;
-    const n2 = Math.floor(Math.random() * 12) + 1;
-    setNum1(n1);
-    setNum2(n2);
-    setCorrect(n1 * n2);
+    const correct = Math.floor(Math.random() * 8) + 1; // resultado da divisão
+    const n2 = Math.floor(Math.random() * 12) + 1; // divisor
+    const n1 = correct * n2; // dividendo
+
+    setNum1(n1); // mesmo nome
+    setNum2(n2); // mesmo nome
+    setCorrect(correct); // resultado da divisão
     setuserN(null);
   }
 
@@ -71,7 +72,7 @@ export default function ThirdGame() {
         setIsVictory(null);
       }, 500);
     } else {
-      setTotalErros((prev) => [...prev, `${num1}x${num2}`]);
+      setTotalAcertos((prev) => [...prev, `${num1}÷${num2}`]);
       setIsVictory(false);
       setTimeout(() => {
         setIsVictory(null);
@@ -163,7 +164,7 @@ export default function ThirdGame() {
                 }}
               >
                 <Image
-                  src="character_runing.svg"
+                  src="/character_runing.svg"
                   alt="Mago"
                   width={125}
                   height={125}
@@ -177,7 +178,7 @@ export default function ThirdGame() {
                 style={{ left: `${posZumbi}px`, transform: "translateY(-50%)" }}
               >
                 <Image
-                  src="eskeleton_runing.svg"
+                  src="/eskeleton_runing.svg"
                   alt="Esqueleto"
                   className="transform scale-x-[-1]"
                   width={125}
@@ -191,7 +192,7 @@ export default function ThirdGame() {
               <h1
                 className={`${luckiestGuy.className} text-center text-5xl tracking-wider`}
               >
-                {num1} <span className="text-[#227C9D]">X</span> {num2}{" "}
+                {num1} <span className="text-[#227C9D]">÷</span> {num2}
                 <span className="text-[#227C9D]">= ?</span>
               </h1>
             </div>

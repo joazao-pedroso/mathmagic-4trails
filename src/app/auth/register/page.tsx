@@ -61,21 +61,18 @@ export default function Register() {
   return (
     <div className="flex flex-col min-h-screen w-full items-center justify-between bg-gray-100">
       <Header home={false} auth={true} />
-
       <main className="flex flex-col items-center justify-center flex-grow w-full px-4 py-8">
         <h1
           className={`${luckiestGuy.variable} text-[#227C9D] text-5xl font-bold mb-8`}
           style={{ fontFamily: "Luckiest Guy" }}
         >
-          Cadastro
+          CADASTRO
         </h1>
-
         <form className="w-full max-w-xl bg-white rounded-xl shadow-xl p-8 space-y-6">
           <div className="flex flex-col gap-2">
             <label
               htmlFor="nome"
               className="text-2xl text-[#227C9D]"
-              style={{ fontFamily: "Luckiest Guy" }}
             >
               Nome:
             </label>
@@ -93,7 +90,6 @@ export default function Register() {
             <label
               htmlFor="email"
               className="text-2xl text-[#227C9D]"
-              style={{ fontFamily: "Luckiest Guy" }}
             >
               Email:
             </label>
@@ -111,7 +107,6 @@ export default function Register() {
             <label
               htmlFor="senha"
               className="text-2xl text-[#227C9D]"
-              style={{ fontFamily: "Luckiest Guy" }}
             >
               Senha:
             </label>
@@ -129,7 +124,6 @@ export default function Register() {
             <label
               htmlFor="confirmar-senha"
               className="text-2xl text-[#227C9D]"
-              style={{ fontFamily: "Luckiest Guy" }}
             >
               Confirmar senha:
             </label>
