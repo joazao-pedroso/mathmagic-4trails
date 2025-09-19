@@ -35,15 +35,18 @@ export default function FirstGame() {
   const total = acertos + erros;
 
   function handleGetValues() {
-    const num2 = Math.floor(Math.random() * 9) + 2; // 2 to 10
+    const num2 = Math.floor(Math.random() * 10) + 1; // 2 to 10
     const correct = Math.floor(Math.random() * 10) + 1; // 1 to 10
     const num1 = num2 * correct;
 
     const wrongOptions = new Set<number>();
     while (wrongOptions.size < 3) {
-      const opt = Math.floor(Math.random() * 20) + 1;
+      const opt = Math.floor(Math.random() * correct) + 1;
       if (opt !== correct) {
         wrongOptions.add(opt);
+      }
+      else{
+        wrongOptions.add(opt + 3);
       }
     }
 

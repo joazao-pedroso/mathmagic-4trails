@@ -31,15 +31,14 @@ export default function SecondGame() {
   const router = useRouter();
 
   function handleGetValues() {
-    const divisor = Math.floor(Math.random() * 20) + 1; // 2 to 10
-    const quotient = Math.floor(Math.random() * 20) + 1; // 1 to 10
-    const dividend = divisor * quotient;
+    const n1 = Math.floor(Math.random() * 20) + 1; // 2 to 10
+    const n2 = Math.floor(Math.random() * 20) + 1; // 1 to 10
 
-    const correct = quotient;
+    const correct = n1 + n2;
 
     const wrongOptions = new Set<number>();
     while (wrongOptions.size < 3) {
-      const opt = Math.floor(Math.random() * quotient) + 1;
+      const opt = Math.floor(Math.random() * correct) + 1;
       if (opt !== correct) {
         wrongOptions.add(opt);
       }
@@ -53,8 +52,8 @@ export default function SecondGame() {
     );
 
     setOptions(allOptions);
-    setN1(dividend);
-    setN2(divisor);
+    setN1(n1);
+    setN2(n2);
     setCorrectAnswer(correct);
   }
 
@@ -71,7 +70,7 @@ export default function SecondGame() {
     if (correct) {
       setRounds((prev) => {
         const newRound = prev + 1;
-        setTotalAcertos((prev) => [...prev, `${n1}/${n2}`]);
+        setTotalAcertos((prev) => [...prev, `${n1}+${n2}`]);
         if (newRound === 10) {
           setTimeout(() => setShowVictoryPopup(true), 1000);
         }
@@ -79,7 +78,7 @@ export default function SecondGame() {
       });
     } else {
       setLives((prev) => prev - 1);
-      setTotalErros((prev) => [...prev, `${n1}/${n2}`]);
+      setTotalErros((prev) => [...prev, `${n1}+${n2}`]);
       setRounds((prev) => {
         const newRound = prev + 1;
         if (newRound === 10 && lives > 1) {
@@ -176,7 +175,7 @@ export default function SecondGame() {
               <h1
                 className={`${luckiestGuy.className} text-center text-5xl tracking-wider`}
               >
-                {n1} <span className="text-[#227C9D]">÷</span> {n2} ={" "}
+                {n1} <span className="text-[#227C9D]">+</span> {n2} ={" "}
                 <span className="text-[#227C9D]">?</span>
               </h1>
             </div>

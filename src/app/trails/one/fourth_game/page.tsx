@@ -32,15 +32,18 @@ export default function FourGame() {
   const router = useRouter();
 
   function handleGetValues() {
-    const num1 = Math.floor(Math.random() * 4) + 5;
-    const num2 = Math.floor(Math.random() * 10) + 1;
+    const num1 = Math.floor(Math.random() * 40) + 1;
+    const num2 = Math.floor(Math.random() * 40) + 1;
     const correct = num1 * num2;
 
     const wrongOptions = new Set<number>();
     while (wrongOptions.size < 3) {
-      const opt = Math.floor(Math.random() * 40) + 1;
+      const opt = Math.floor(Math.random() * correct) + 1;
       if (opt !== correct) {
         wrongOptions.add(opt);
+      }
+      else{
+        wrongOptions.add(opt + 3);
       }
     }
 
@@ -194,7 +197,7 @@ export default function FourGame() {
                   ))}
                 </div>
                 <Image
-                  src="/character_2.svg"
+                  src="/witcher.svg"
                   alt="Personagem"
                   width={100}
                   height={100}

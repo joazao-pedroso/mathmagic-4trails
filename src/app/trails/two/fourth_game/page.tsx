@@ -32,17 +32,20 @@ export default function FourGame() {
   const router = useRouter();
 
   function handleGetValues() {
-    const divisor = Math.floor(Math.random() * 9) + 2; // n2: de 2 a 10
-    const quotient = Math.floor(Math.random() * 10) + 1; // resposta correta: de 1 a 10
+    const divisor = Math.floor(Math.random() * 40) + 1; // n2: de 2 a 10
+    const quotient = Math.floor(Math.random() * 40) + 1; // resposta correta: de 1 a 10
     const dividend = divisor * quotient; // n1 = resposta * divisor
 
     const correct = quotient;
 
     const wrongOptions = new Set<number>();
     while (wrongOptions.size < 3) {
-      const opt = Math.floor(Math.random() * 10) + 1;
+      const opt = Math.floor(Math.random() * correct) + 1;
       if (opt !== correct) {
         wrongOptions.add(opt);
+      }
+      else{
+        wrongOptions.add(opt + 3);
       }
     }
 
@@ -196,7 +199,7 @@ export default function FourGame() {
                   ))}
                 </div>
                 <Image
-                  src="/character_3.svg"
+                  src="/frankenstein.svg"
                   alt="Personagem"
                   width={100}
                   height={100}

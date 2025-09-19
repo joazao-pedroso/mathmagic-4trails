@@ -30,8 +30,8 @@ export default function ThirdGame() {
   const [showEndGamePopup, setShowEndGamePopup] = useState(false);
   const [showVictoryPopup, setShowVictoryPopup] = useState(false);
   function handleGetValues() {
-    const correct = Math.floor(Math.random() * 8) + 1; // resultado da divisão
-    const n2 = Math.floor(Math.random() * 12) + 1; // divisor
+    const correct = Math.floor(Math.random() * 30) + 1; // resultado da divisão
+    const n2 = Math.floor(Math.random() * 30) + 1; // divisor
     const n1 = correct * n2; // dividendo
 
     setNum1(n1); // mesmo nome
@@ -153,7 +153,6 @@ export default function ThirdGame() {
 
       <div className="flex items-center justify-center flex-col">
         <div className="container flex flex-col gap-3 bg-white rounded-lg shadow-md mx-auto mt-5 p-5 w-250 h-200">
-          {/* ÁREA DA CORRIDA */}
           <div className="bg-white p-2 rounded-lg shadow-lg w-full h-full flex flex-col gap-3 items-center justify-center relative">
             <div className="flex border-3 border-[#227C9D] rounded-xl bg-gray-50 shadow flex-row h-3/5 w-full justify-end p-2 relative overflow-hidden">
               <div
@@ -178,9 +177,8 @@ export default function ThirdGame() {
                 style={{ left: `${posZumbi}px`, transform: "translateY(-50%)" }}
               >
                 <Image
-                  src="/eskeleton_runing.svg"
-                  alt="Esqueleto"
-                  className="transform scale-x-[-1]"
+                  src="/zombie_runing.svg"
+                  alt="Zumbi"
                   width={125}
                   height={125}
                   priority
@@ -218,7 +216,7 @@ export default function ThirdGame() {
                 type="button"
                 value={"ENVIAR"}
                 onClick={handleCheckValues}
-                className={`${luckiestGuy.className} border-3 transition-all border-[#227C9D] cursor-pointer hover:bg-white hover:text-[#227C9D] text-3xl text-center text-white bg-[#227C9D] rounded-xl w-150 h-15`}
+                className={`${luckiestGuy.className} border-3 transition-all  cursor-pointer hover:bg-[#227c9de3] text-3xl text-center text-white bg-[#227C9D] rounded-xl w-150 h-15`}
               />
             </div>
           </div>

@@ -35,13 +35,13 @@ export default function FirstGame() {
   const total = acertos + erros;
 
   function handleGetValues() {
-    const num1 = Math.floor(Math.random() * 10) + 1;
-    const num2 = Math.floor(Math.random() * 10) + 1;
-    const correct = num1 * num2;
+    const num2 = Math.floor(Math.random() * 10) + 1; // 2 to 10
+    const num1 = Math.floor(Math.random() * 10) + 1; // 1 to 10
+    const correct = num1 + num2;
 
     const wrongOptions = new Set<number>();
     while (wrongOptions.size < 3) {
-      const opt = Math.floor(Math.random() * correct) + 5;
+      const opt = Math.floor(Math.random() * correct) + 1;
       if (opt !== correct) {
         wrongOptions.add(opt);
       }
@@ -50,12 +50,9 @@ export default function FirstGame() {
       }
     }
 
-    const allOptions = [correct, ...Array.from(wrongOptions)];
-
-    for (let i = allOptions.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]];
-    }
+    const allOptions = [correct, ...Array.from(wrongOptions)].sort(
+      () => Math.random() - 0.5
+    );
 
     setN1(num1);
     setN2(num2);
@@ -76,10 +73,10 @@ export default function FirstGame() {
       setIsCorrect(correct);
       if (correct) {
         setAcertos((prev) => prev + 1);
-        setTotalAcertos((prev) => [...prev, `${n1}x${n2}`]);
+        setTotalAcertos((prev) => [...prev, `${n1}+${n2}`]);
       } else {
         setErros((prev) => prev + 1);
-        setTotalErros((prev) => [...prev, `${n1}x${n2}`]);
+        setTotalErros((prev) => [...prev, `${n1}+${n2}`]);
       }
     }
   };
@@ -104,6 +101,7 @@ export default function FirstGame() {
       }, 1000);
     }
   }, [acertos, total]);
+
   useEffect(() => {
     if (passou !== null) {
       setShowEndGamePopup(true);
@@ -154,7 +152,7 @@ export default function FirstGame() {
                 className={`${luckiestGuy.variable} text-center text-5xl tracking-wider`}
                 style={{ fontFamily: "Luckiest Guy" }}
               >
-                {n1} <span className="text-[#227C9D]">x</span> {n2} =
+                {n1} <span className="text-[#227C9D]">+</span> {n2} =
               </h1>
               <DropBox
                 onDropValue={setDroppedValue}
@@ -181,8 +179,6 @@ export default function FirstGame() {
               </button>
             </div>
           </div>
-
-          <div className="flex justify-center mt-4 flex-col items-center"></div>
         </div>
       </div>
 
@@ -277,6 +273,7 @@ export default function FirstGame() {
           </div>
         )}
       </AnimatePresence>
+
       <AnimatePresence>
         {showEndGamePopup && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">

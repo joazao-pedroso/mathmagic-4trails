@@ -34,34 +34,30 @@ export default function FirstGame() {
   const [acertos, setAcertos] = useState<number>(0);
   const total = acertos + erros;
 
-
   function handleGetValues() {
-    let num1 = Math.floor(Math.random() * 50) + 1; // 1 a 10
-    let num2 = Math.floor(Math.random() * 50) + 1; // 1 a 10
-  
-    // Garante que num1 >= num2
-    if (num2 > num1) {
-      [num1, num2] = [num2, num1];
-    }
-  
-    const correct = num1 - num2;
-  
+    const num1 = Math.floor(Math.random() * 20) + 1;
+    const num2 = Math.floor(Math.random() * 20) + 1;
+    const maior = Math.max(num1, num2);
+    const menor = Math.min(num1, num2);
+    const correct = maior - menor;
     const wrongOptions = new Set<number>();
     while (wrongOptions.size < 3) {
-      const opt = Math.floor(Math.random() * 50); // respostas erradas mais próximas
+      const opt = Math.floor(Math.random() * 20) + 1;
       if (opt !== correct) {
         wrongOptions.add(opt);
       }
+      else{
+        wrongOptions.add(opt + 3);
+      }
     }
-  
+
     const allOptions = [correct, ...Array.from(wrongOptions)];
-  
-    // Embaralha as opções
+
     for (let i = allOptions.length - 1; i > 0; i--) {
       const j = Math.floor(Math.random() * (i + 1));
       [allOptions[i], allOptions[j]] = [allOptions[j], allOptions[i]];
     }
-  
+
     setN1(num1);
     setN2(num2);
     setCorrectAnswer(correct);
@@ -69,8 +65,6 @@ export default function FirstGame() {
     setDroppedValue(null);
     setIsCorrect(null);
   }
-  
-
 
   const handleVerify = () => {
     if (droppedValue === null) {
@@ -83,10 +77,10 @@ export default function FirstGame() {
       setIsCorrect(correct);
       if (correct) {
         setAcertos((prev) => prev + 1);
-        setTotalAcertos((prev) => [...prev, `${n1}/${n2}`]);
+        setTotalAcertos((prev) => [...prev, `${n1}-${n2}`]);
       } else {
         setErros((prev) => prev + 1);
-        setTotalErros((prev) => [...prev, `${n1}/${n2}`]);
+        setTotalErros((prev) => [...prev, `${n1}-${n2}`]);
       }
     }
   };
@@ -111,7 +105,6 @@ export default function FirstGame() {
       }, 1000);
     }
   }, [acertos, total]);
-
   useEffect(() => {
     if (passou !== null) {
       setShowEndGamePopup(true);
@@ -189,6 +182,8 @@ export default function FirstGame() {
               </button>
             </div>
           </div>
+
+          <div className="flex justify-center mt-4 flex-col items-center"></div>
         </div>
       </div>
 
@@ -283,7 +278,6 @@ export default function FirstGame() {
           </div>
         )}
       </AnimatePresence>
-
       <AnimatePresence>
         {showEndGamePopup && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center z-50">

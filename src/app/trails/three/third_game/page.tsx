@@ -29,13 +29,16 @@ export default function ThirdGame() {
   const [isVictory, setIsVictory] = useState<boolean | null>(null);
   const [showEndGamePopup, setShowEndGamePopup] = useState(false);
   const [showVictoryPopup, setShowVictoryPopup] = useState(false);
-
   function handleGetValues() {
-    const n1 = Math.floor(Math.random() * 30) + 1;
-    const n2 = Math.floor(Math.random() * 30) + 1;
-    setNum1(n1);
-    setNum2(n2);
-    setCorrect(n1 * n2);
+    const num1 = Math.floor(Math.random() * 40) + 1;
+    const num2 = Math.floor(Math.random() * 40) + 1;
+    const maior = Math.max(num1, num2);
+    const menor = Math.min(num1, num2);
+    const correct = maior - menor;
+
+    setNum1(num1); // mesmo nome
+    setNum2(num2); // mesmo nome
+    setCorrect(correct); // resultado da divisão
     setuserN(null);
   }
 
@@ -65,13 +68,13 @@ export default function ThirdGame() {
     if (userN === correct) {
       newJogador += 50;
       newZumbi += 10;
-      setTotalAcertos((prev) => [...prev, `${num1}x${num2}`]);
+      setTotalAcertos((prev) => [...prev, `${num1}-${num2}`]);
       setIsVictory(true);
       setTimeout(() => {
         setIsVictory(null);
       }, 500);
     } else {
-      setTotalErros((prev) => [...prev, `${num1}x${num2}`]);
+      setTotalAcertos((prev) => [...prev, `${num1}-${num2}`]);
       setIsVictory(false);
       setTimeout(() => {
         setIsVictory(null);
@@ -152,7 +155,6 @@ export default function ThirdGame() {
 
       <div className="flex items-center justify-center flex-col">
         <div className="container flex flex-col gap-3 bg-white rounded-lg shadow-md mx-auto mt-5 p-5 w-250 h-200">
-          {/* ÁREA DA CORRIDA */}
           <div className="bg-white p-2 rounded-lg shadow-lg w-full h-full flex flex-col gap-3 items-center justify-center relative">
             <div className="flex border-3 border-[#227C9D] rounded-xl bg-gray-50 shadow flex-row h-3/5 w-full justify-end p-2 relative overflow-hidden">
               <div
@@ -177,9 +179,8 @@ export default function ThirdGame() {
                 style={{ left: `${posZumbi}px`, transform: "translateY(-50%)" }}
               >
                 <Image
-                  src="/eskeleton_running.svg"
-                  alt="Esqueleto"
-                  className="transform scale-x-[-1]"
+                  src="/bat_running.svg"
+                  alt="Zumbi"
                   width={125}
                   height={125}
                   priority
@@ -191,7 +192,7 @@ export default function ThirdGame() {
               <h1
                 className={`${luckiestGuy.className} text-center text-5xl tracking-wider`}
               >
-                {num1} <span className="text-[#227C9D]">X</span> {num2}{" "}
+                {num1} <span className="text-[#227C9D]">-</span> {num2}
                 <span className="text-[#227C9D]">= ?</span>
               </h1>
             </div>
@@ -224,7 +225,6 @@ export default function ThirdGame() {
         </div>
       </div>
 
-      {/* Animações de Vitória e Derrota com Framer Motion */}
       <AnimatePresence>
         {isVictory === true && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex flex-row gap-3 items-center justify-center z-50">
@@ -387,7 +387,7 @@ export default function ThirdGame() {
                 </p>
                 <button
                   onClick={() => setShowWarning(false)}
-                  className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#227C9D] transition-all shadow-md"
+                  className="bg-[#227C9D] text-white px-6 py-2.5 rounded cursor-pointer hover:bg-[#1b627f] transition-all shadow-md"
                 >
                   Voltar
                 </button>
