@@ -14,7 +14,7 @@ type HeaderProps = {
   home: boolean;
   auth?: boolean; 
 };
-export default function Header({ home, auth = false }: HeaderProps) {
+export default function Header({ home = false }: HeaderProps) {
   const router = useRouter();
   const [showModal, setShowModal] = useState(false);
   const [showModalLeave, setShowModalLeave] = useState(false);
@@ -54,17 +54,6 @@ export default function Header({ home, auth = false }: HeaderProps) {
           height={250}
           onClick={handleGoToHome}
         />
-        {
-          auth == false &&(
-            <button
-            className="w-30 mr-10 text-xl bg-white text-[#227C9D] font-medium h-12 rounded-xl cursor-pointer hover:bg-[#e8e7e7] border-2"
-            onClick={() => setShowModalLeave(true)}
-          >
-            Sair
-          </button>
-          )
-        }
-
       </header>
 
       <AnimatePresence>

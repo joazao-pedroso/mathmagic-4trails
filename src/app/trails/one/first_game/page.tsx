@@ -10,6 +10,7 @@ import { Luckiest_Guy } from "next/font/google";
 import Image from "next/image";
 import Header from "../../../../components/Header";
 import Footer from "../../../../components/Footer";
+import { useSendGameData } from "@/hooks/useSendGameData";
 
 const luckiestGuy = Luckiest_Guy({
   variable: "--font-luckiest-guy",
@@ -18,6 +19,7 @@ const luckiestGuy = Luckiest_Guy({
 });
 
 export default function FirstGame() {
+  const { sendData } = useSendGameData();
   const router = useRouter();
   const [passou, setPassou] = useState<boolean | null>(null);
   const [totalErros, setTotalErros] = useState<string[]>([]);
@@ -104,37 +106,29 @@ export default function FirstGame() {
       }, 1000);
     }
   }, [acertos, total]);
-  useEffect(() => {
-    if (passou !== null) {
-      setShowEndGamePopup(true);
-      const sendData = async () => {
-        const response = await fetch(
-          "http://127.0.0.1:5000/api/desempenho_jogo",
-          {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              aluno_id: 1,
-              trilha: 1,
-              jogo: 1,
-              passou: `${passou}`,
-              acertos: totalAcertos,
-              erros: totalErros,
-            }),
-          }
-        );
+ useEffect(() => {
+  if (passou !== null) {
+    setShowEndGamePopup(true);
 
-        if (!response.ok) {
-          console.error("Failed to save game data");
-        } else {
-          console.log("Dados enviados com sucesso!");
+    const saveGameData = async () => {
+      try {
+        const data = {
+          aluno_id: 1,
+          trilha: 1,
+          jogo: 1,
+          passou: `${passou}`,
+          acertos: totalAcertos,
+          erros: totalErros,
         }
-      };
+        await sendData(data);
+      } catch (error) {
+        console.error("❌ Erro ao salvar desempenho:", error);
+      }
+    };
 
-      sendData();
-    }
-  }, [passou, totalAcertos, totalErros]);
-
+    saveGameData();
+  }
+}, [passou, totalAcertos, totalErros, sendData]);
   return (
     <DndProvider backend={HTML5Backend}>
       <Header home={false} />

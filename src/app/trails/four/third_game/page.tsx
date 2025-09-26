@@ -32,9 +32,9 @@ export default function ThirdGame() {
   function handleGetValues() {
     const n1 = Math.floor(Math.random() * 30) + 1; // resultado da divisão
     const n2 = Math.floor(Math.random() * 30) + 1; // divisor
-    const correct = n1 + n2; // dividendo
+    const correct = n1 + n2;
 
-    setNum1(n1); // mesmo nome
+    setNum1(n1); 
     setNum2(n2); // mesmo nome
     setCorrect(correct); // resultado da divisão
     setuserN(null);
@@ -177,8 +177,8 @@ export default function ThirdGame() {
                 style={{ left: `${posZumbi}px`, transform: "translateY(-50%)" }}
               >
                 <Image
-                  src="/zombie_runing.svg"
-                  alt="Zumbi"
+                  src="/dragon_running.svg"
+                  alt="Dragon"
                   width={125}
                   height={125}
                   priority
@@ -205,7 +205,7 @@ export default function ThirdGame() {
                 type="number"
                 onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => {
                   if (e.key === "Enter") {
-                    handleCheckValues(e as never); // TypeScript pode pedir ajuste
+                    handleCheckValues(e as never); 
                   }
                 }}
                 value={userN === null ? "" : userN}
@@ -223,7 +223,6 @@ export default function ThirdGame() {
         </div>
       </div>
 
-      {/* Animações de Vitória e Derrota com Framer Motion */}
       <AnimatePresence>
         {isVictory === true && (
           <div className="fixed inset-0 backdrop-blur-sm bg-black/20 flex flex-row gap-3 items-center justify-center z-50">

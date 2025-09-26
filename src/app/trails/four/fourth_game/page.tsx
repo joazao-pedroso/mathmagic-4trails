@@ -188,18 +188,18 @@ export default function FourGame() {
                   {Array.from({ length: 7 }).map((_, index) => (
                     <Heart
                       key={index}
-                      fill={index < enemyLives ? "green" : "none"}
+                      fill={index < enemyLives ? "#088AFF" : "none"}
                       className={`w-6 h-6 ${
                         index < enemyLives
-                          ? "text-green-600 opacity-100"
-                          : "text-green-300 opacity-50"
+                          ? "text-blue-500 opacity-100"
+                          : "text-blue-300 opacity-50"
                       }`}
                     />
                   ))}
                 </div>
                 <Image
-                  src="/frankenstein.svg"
-                  alt="Personagem"
+                  src="/dragon.svg"
+                  alt="Dragão"
                   width={100}
                   height={100}
                 />
