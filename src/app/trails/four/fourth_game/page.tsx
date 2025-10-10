@@ -92,8 +92,7 @@ export default function FourGame() {
   useEffect(() => {
     if (isCorrect !== null) {
       const timer = setTimeout(() => {
-        setIsCorrect(null); // Reset state for animation
-        // Only generate new values if enemy hasn't lost and player still has lives
+        setIsCorrect(null);
         if (enemyLives > 0 && lives > 0) {
           handleGetValues();
         }
@@ -102,18 +101,15 @@ export default function FourGame() {
     }
   }, [isCorrect, lives, enemyLives]);
 
-  // Handle game over (player loses all lives)
   useEffect(() => {
     if (lives <= 0) {
       const timer = setTimeout(() => {
         setPassou(false);
         setShowEndGamePopup(true);
-      }, 1000); // Give some time for the "lose" animation to play
+      }, 1000); 
       return () => clearTimeout(timer);
     }
   }, [lives]);
-
-  // Send game data when game ends (passou changes)
   useEffect(() => {
     if (passou !== null) {
       const sendData = async () => {
@@ -125,7 +121,7 @@ export default function FourGame() {
             body: JSON.stringify({
               trilha: 1,
               jogo: 4,
-              passou: `${passou}`, // Convert boolean to string for the API
+              passou: `${passou}`, 
               acertos: totalAcertos,
               erros: totalErros,
             }),
@@ -138,7 +134,7 @@ export default function FourGame() {
           console.log("Dados enviados com sucesso!");
         }
       };
-      sendData(); // Invoke the sendData function
+      sendData(); 
     }
   }, [passou, totalAcertos, totalErros]);
 
@@ -171,7 +167,6 @@ export default function FourGame() {
                 />
               </div>
             </div>
-
             <div className="flex flex-row w-1/3 items-center justify-around gap-2">
               <h1
                 className={`${luckiestGuy.className} text-center text-5xl tracking-wider`}
@@ -180,8 +175,6 @@ export default function FourGame() {
                 <span className="text-[#227C9D]">?</span>
               </h1>
             </div>
-
-            {/* CONTADOR DE RODADAS */}
             <div className="flex flex-row w-1/3 items-center justify-center gap-2">
               <div className="flex flex-col items-center justify-center">
                 <div className="flex gap-1">

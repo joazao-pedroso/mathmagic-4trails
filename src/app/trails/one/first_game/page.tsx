@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import { motion, AnimatePresence } from "framer-motion";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
-import DropBox from "../../../../components/DropBox";
-import DraggableItem from "../../../../components/DraggableItem";
+import DropBox from "@/components/DropBox";
+import DraggableItem from "@/components/DraggableItem";
 import { Luckiest_Guy } from "next/font/google";
 import Image from "next/image";
-import Header from "../../../../components/Header";
-import Footer from "../../../../components/Footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 import { useSendGameData } from "@/hooks/useSendGameData";
 
 const luckiestGuy = Luckiest_Guy({
