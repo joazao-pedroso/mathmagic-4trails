@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import Footer from "@/components/Footer";
 import Header from "@/components/Header";
@@ -36,11 +36,11 @@ export default function SignIn() {
 
   const onSubmit: SubmitHandler<LoginFormData> = async (data) => {
     setIsLoading(true);
-    console.log(data)
+    console.log(data);
 
     try {
       const response = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/login`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/login`,
         {
           email: data.email,
           senha: data.password,
@@ -49,7 +49,7 @@ export default function SignIn() {
           withCredentials: true,
         }
       );
-      console.log(response.data)
+      console.log(response.data);
       const { access_token, funcao } = response.data;
 
       if (access_token) {

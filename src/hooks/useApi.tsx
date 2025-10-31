@@ -16,7 +16,7 @@ export function useApi() {
 
       if (!token) {
         logout();
-        router.push("/auth");
+        router.push("/auth/signin");
         throw new Error("Token não encontrado.");
       }
 
@@ -37,7 +37,7 @@ export function useApi() {
 
         if (err.response?.status === 401 || err.response?.status === 403) {
           logout();
-          router.push("/auth");
+          router.push("/auth/signin");
         }
 
         throw err;

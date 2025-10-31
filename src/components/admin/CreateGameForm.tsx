@@ -5,21 +5,27 @@ import { useForm, SubmitHandler } from "react-hook-form";
 
 interface RegisterFormData {
   name: string;
-  email: string;
-  password: string;
+  description: string;
+  trail: string;
+}
+interface Trail {
+  id: number;
+  nome: string;
+  descricao: string;
 }
 
 interface RegisterFormProps {
   onRegisterError: (type: "error", message: string) => void;
   closeModal: () => void;
+  trails: Trail[];
 }
-
-export default function CreateProfForm({
+export default function CreateGameForm({
   onRegisterError,
   closeModal,
+  trails,
 }: RegisterFormProps) {
-  const api = useApi()
-  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const api = useApi();
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -33,19 +39,18 @@ export default function CreateProfForm({
 
     const apiPayload = {
       nome: data.name,
-      email: data.email,
-      senha: data.password,
+      descricao: data.description,
+      trilha_id: data.trail
     };
 
     try {
-      console.log(apiPayload)
+      console.log(apiPayload);
       await api({
-        url: "/api/admin/professores",
+        url: "/api/admin/jogos",
         method: "POST",
-        data: apiPayload
+        data: apiPayload,
       });
 
-      // Sucesso
       reset();
       closeModal();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -59,50 +64,54 @@ export default function CreateProfForm({
   return (
     <form className="space-y-6" onSubmit={handleSubmit(onSubmit)}>
       <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Nome</label>
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Nome
+        </label>
         <input
           type="text"
           {...register("name", { required: "Nome é obrigatório" })}
           className="w-full pl-3 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:border-transparent transition-all duration-300"
-          placeholder="Nome do Professor"
+          placeholder="Nome da Trilha"
         />
-        {errors.name && <p className="mt-1 text-xs text-red-400">{errors.name.message}</p>}
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Email</label>
-        <input
-          type="email"
-          {...register("email", {
-            required: "Email é obrigatório",
-            pattern: {
-              value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-              message: "Email inválido",
-            },
-          })}
-          className="w-full pl-3 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:border-transparent transition-all duration-300"
-          placeholder="Email do Professor"
-        />
-        {errors.email && <p className="mt-1 text-xs text-red-400">{errors.email.message}</p>}
-      </div>
-
-      <div>
-        <label className="block text-sm font-medium text-gray-300 mb-2">Senha</label>
-        <input
-          type="password"
-          {...register("password", {
-            required: "Senha é obrigatória",
-            minLength: {
-              value: 6,
-              message: "A senha deve ter no mínimo 6 caracteres",
-            },
-          })}
-          className="w-full pl-3 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:border-transparent transition-all duration-300"
-          placeholder="Senha do Professor"
-        />
-        {errors.password && (
-          <p className="mt-1 text-xs text-red-400">{errors.password.message}</p>
+        {errors.name && (
+          <p className="mt-1 text-xs text-red-400">{errors.name.message}</p>
         )}
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Descrição
+        </label>
+        <input
+          type="text"
+          {...register("description", { required: "Descrição é obrigatória" })}
+          className="w-full pl-3 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:border-transparent transition-all duration-300"
+          placeholder="Descrição da Trilha"
+        />
+        {errors.description && (
+          <p className="mt-1 text-xs text-red-400">
+            {errors.description.message}
+          </p>
+        )}
+      </div>
+      <div>
+        <label className="block text-sm font-medium text-gray-300 mb-2">
+          Trilha
+        </label>
+        <select
+          {...register("trail", { required: "Trilha é obrigatória" })}
+          className="w-full pl-3 pr-4 py-3 bg-gray-700/50 border border-gray-600 rounded-lg text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-100 focus:border-transparent transition-all duration-300"
+        >
+          <option value="">Selecione uma trilha</option>
+          {trails.map((item: Trail, index) => (
+            <option key={index} value={item.id}>
+              {item.nome}
+            </option>
+          ))}
+
+          {errors.trail && (
+            <p className="mt-1 text-xs text-red-400">{errors.trail.message}</p>
+          )}
+        </select>
       </div>
 
       <button

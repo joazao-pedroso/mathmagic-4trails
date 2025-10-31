@@ -49,7 +49,7 @@ export default function EditProfForm({ profData, onEditError, closeModal }: Edit
 
     try {
       await api({
-        url: `/api/professores/${profData.id}`,
+        url: `/api/admin/professores/${profData.id}`,
         method: "PUT",
         data: payload,
       });

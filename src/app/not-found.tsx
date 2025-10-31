@@ -26,7 +26,9 @@ export default function NotFound() {
           className="object-contain "
           priority
         />
-        <button className="bg-[#227C9D] cursor-pointer hover:bg-[#227c9dda]  text-white rounded p-5 text-2xl ">Voltar ao ínico</button>
+        <button className="bg-[#227C9D] cursor-pointer hover:bg-[#227c9dda]  text-white rounded p-5 text-2xl ">
+          Voltar ao ínicio
+        </button>
       </main>
     </>
   );

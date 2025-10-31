@@ -23,10 +23,9 @@ export default function ProfessorContainer() {
   const handleGetProfessores = async () => {
     try {
       const response = await api({
-        url: "/api/professores",
+        url: "/api/admin/professores",
         method: "GET",
       });
-
       setProfessor(response.data);
     } catch (err) {
       console.error("Erro na requisição:", err);
@@ -40,7 +39,7 @@ export default function ProfessorContainer() {
   const handleDeleteProf = async () => {
     try {
       await api({
-        url: `/api/professores/${idProfDelete}`,
+        url: `/api/admin/professores/${idProfDelete}`,
         method: "DELETE",
       });
       setIdProfDelete(null);
@@ -149,34 +148,33 @@ export default function ProfessorContainer() {
         </div>
       )}
       {isEditingProf && profToEdit && (
-  <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4">
-    <div className="flex flex-col gap-4 w-full md:w-1/2 mt-20 md:mt-12 mb-8">
-      <div className="bg-[#227C9D] w-full backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-2xl">
-        <div className="flex justify-end mb-4">
-          <button
-            onClick={() => {
-              setIsEditingProf(false);
-              setProfToEdit(null);
-            }}
-            className="text-gray-100 hover:text-gray-300 transition-colors duration-300"
-          >
-            <X className="text-white hover:text-gray-200" />
-          </button>
+        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-start justify-center z-50 overflow-y-auto p-4">
+          <div className="flex flex-col gap-4 w-full md:w-1/2 mt-20 md:mt-12 mb-8">
+            <div className="bg-[#227C9D] w-full backdrop-blur-sm rounded-2xl p-6 sm:p-8 shadow-2xl">
+              <div className="flex justify-end mb-4">
+                <button
+                  onClick={() => {
+                    setIsEditingProf(false);
+                    setProfToEdit(null);
+                  }}
+                  className="text-gray-100 hover:text-gray-300 transition-colors duration-300"
+                >
+                  <X className="text-white hover:text-gray-200" />
+                </button>
+              </div>
+              <EditProfForm
+                profData={profToEdit}
+                closeModal={() => {
+                  setIsEditingProf(false);
+                  setProfToEdit(null);
+                  handleGetProfessores();
+                }}
+                onEditError={() => {}}
+              />
+            </div>
+          </div>
         </div>
-        <EditProfForm
-          profData={profToEdit}
-          closeModal={() => {
-            setIsEditingProf(false);
-            setProfToEdit(null);
-            handleGetProfessores();
-          }}
-          onEditError={() => {}}
-        />
-      </div>
-    </div>
-  </div>
-)}
-
+      )}
     </>
   );
 }
